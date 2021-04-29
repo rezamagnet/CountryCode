@@ -44,7 +44,7 @@ public struct Country {
     }
     
     public var flag: UIImage? {
-        return UIImage(named: flagName, in: Bundle(for: CountryPicker.self), compatibleWith: nil)
+        return UIImage(named: flagName.lowercased(), in: Bundle.module, compatibleWith: nil)
     }
 }
 
@@ -150,8 +150,8 @@ public class CountryPicker: UIPickerView, UIPickerViewDelegate, UIPickerViewData
     /// - Returns: sorted array with all information phone, flag, name
     private static func countryNamesByCode() -> [Country] {
         var countries = [Country]()
-        let frameworkBundle = Bundle(for: self)
-        guard let jsonPath = frameworkBundle.path(forResource: "CountryPicker.bundle/Data/countryCodes", ofType: "json"), let jsonData = try? Data(contentsOf: URL(fileURLWithPath: jsonPath)) else {
+        let frameworkBundle = Bundle.module
+        guard let jsonPath = frameworkBundle.path(forResource: "countryCodes", ofType: "json"), let jsonData = try? Data(contentsOf: URL(fileURLWithPath: jsonPath)) else {
             return countries
         }
         
@@ -168,7 +168,7 @@ public class CountryPicker: UIPickerView, UIPickerViewDelegate, UIPickerViewData
                         return countries
                     }
                     
-                    let flagName = "CountryPicker.bundle/Images/\(code.uppercased())"
+                    let flagName = code.uppercased()
                     
                     let country = Country(code: code, name: name, phoneCode: phoneCode, flagName: flagName)
                     countries.append(country)
